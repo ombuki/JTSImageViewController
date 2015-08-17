@@ -180,6 +180,11 @@ extern CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius;
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect;
 
 /**
+ Called when the image viewer is double tapped.
+ */
+- (void)imageViewerDidDoubleTap:(JTSImageViewController *)imageViewer;
+
+/**
  Called when the image viewer is deciding whether to respond to user interactions.
  
  You may need to return NO if you are presenting custom, temporary UI on top of the image viewer. 

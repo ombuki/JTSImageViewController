@@ -434,7 +434,7 @@ typedef struct {
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.delegate = self;
     self.scrollView.zoomScale = 1.0f;
-    self.scrollView.maximumZoomScale = 8.0f;
+    self.scrollView.maximumZoomScale = 1.0f;
     self.scrollView.scrollEnabled = NO;
     self.scrollView.isAccessibilityElement = YES;
     self.scrollView.accessibilityLabel = self.accessibilityLabel;
@@ -1629,35 +1629,40 @@ typedef struct {
     if (_flags.scrollViewIsAnimatingAZoom) {
         return;
     }
-    
-    CGPoint rawLocation = [sender locationInView:sender.view];
-    CGPoint point = [self.scrollView convertPoint:rawLocation fromView:sender.view];
-    CGRect targetZoomRect;
-    UIEdgeInsets targetInsets;
-    if (self.scrollView.zoomScale == 1.0f) {
-        self.scrollView.accessibilityHint = self.accessibilityHintZoomedIn;
-        CGFloat zoomWidth = self.view.bounds.size.width / JTSImageViewController_TargetZoomForDoubleTap;
-        CGFloat zoomHeight = self.view.bounds.size.height / JTSImageViewController_TargetZoomForDoubleTap;
-        targetZoomRect = CGRectMake(point.x - (zoomWidth/2.0f), point.y - (zoomHeight/2.0f), zoomWidth, zoomHeight);
-        targetInsets = [self contentInsetForScrollView:JTSImageViewController_TargetZoomForDoubleTap];
-    } else {
-        self.scrollView.accessibilityHint = self.accessibilityHintZoomedOut;
-        CGFloat zoomWidth = self.view.bounds.size.width * self.scrollView.zoomScale;
-        CGFloat zoomHeight = self.view.bounds.size.height * self.scrollView.zoomScale;
-        targetZoomRect = CGRectMake(point.x - (zoomWidth/2.0f), point.y - (zoomHeight/2.0f), zoomWidth, zoomHeight);
-        targetInsets = [self contentInsetForScrollView:1.0f];
+
+    if (self.image && sender.state == UIGestureRecognizerStateEnded) {
+        if ([self.interactionsDelegate respondsToSelector:@selector(imageViewerDidDoubleTap:)]) {
+            [self.interactionsDelegate imageViewerDidDoubleTap:self];
+        }
     }
-    self.view.userInteractionEnabled = NO;
-    
-    [CATransaction begin];
-    __weak JTSImageViewController *weakSelf = self;
-    [CATransaction setCompletionBlock:^{
-        weakSelf.scrollView.contentInset = targetInsets;
-        weakSelf.view.userInteractionEnabled = YES;
-        _flags.scrollViewIsAnimatingAZoom = NO;
-    }];
-    [self.scrollView zoomToRect:targetZoomRect animated:YES];
-    [CATransaction commit];
+//    CGPoint rawLocation = [sender locationInView:sender.view];
+//    CGPoint point = [self.scrollView convertPoint:rawLocation fromView:sender.view];
+//    CGRect targetZoomRect;
+//    UIEdgeInsets targetInsets;
+//    if (self.scrollView.zoomScale == 1.0f) {
+//        self.scrollView.accessibilityHint = self.accessibilityHintZoomedIn;
+//        CGFloat zoomWidth = self.view.bounds.size.width / JTSImageViewController_TargetZoomForDoubleTap;
+//        CGFloat zoomHeight = self.view.bounds.size.height / JTSImageViewController_TargetZoomForDoubleTap;
+//        targetZoomRect = CGRectMake(point.x - (zoomWidth/2.0f), point.y - (zoomHeight/2.0f), zoomWidth, zoomHeight);
+//        targetInsets = [self contentInsetForScrollView:JTSImageViewController_TargetZoomForDoubleTap];
+//    } else {
+//        self.scrollView.accessibilityHint = self.accessibilityHintZoomedOut;
+//        CGFloat zoomWidth = self.view.bounds.size.width * self.scrollView.zoomScale;
+//        CGFloat zoomHeight = self.view.bounds.size.height * self.scrollView.zoomScale;
+//        targetZoomRect = CGRectMake(point.x - (zoomWidth/2.0f), point.y - (zoomHeight/2.0f), zoomWidth, zoomHeight);
+//        targetInsets = [self contentInsetForScrollView:1.0f];
+//    }
+//    self.view.userInteractionEnabled = NO;
+//    
+//    [CATransaction begin];
+//    __weak JTSImageViewController *weakSelf = self;
+//    [CATransaction setCompletionBlock:^{
+//        weakSelf.scrollView.contentInset = targetInsets;
+//        weakSelf.view.userInteractionEnabled = YES;
+//        _flags.scrollViewIsAnimatingAZoom = NO;
+//    }];
+//    [self.scrollView zoomToRect:targetZoomRect animated:YES];
+//    [CATransaction commit];
 }
 
 - (void)imageSingleTapped:(id)sender {

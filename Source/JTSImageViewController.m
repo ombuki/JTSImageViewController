@@ -30,7 +30,7 @@ CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius = 2.0f;
 
 // Private Constants
 static CGFloat const JTSImageViewController_MinimumBackgroundScaling = 0.94f;
-static CGFloat const JTSImageViewController_TargetZoomForDoubleTap = 3.0f;
+//static CGFloat const JTSImageViewController_TargetZoomForDoubleTap = 3.0f;
 static CGFloat const JTSImageViewController_MaxScalingForExpandingOffscreenStyleTransition = 1.25f;
 static CGFloat const JTSImageViewController_TransitionAnimationDuration = 0.3f;
 static CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;

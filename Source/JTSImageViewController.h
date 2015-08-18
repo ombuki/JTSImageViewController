@@ -180,6 +180,11 @@ extern CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius;
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer atRect:(CGRect)rect;
 
 /**
+ Called when the image viewer is tapped.
+ */
+- (void)imageViewerDidSingleTap:(JTSImageViewController *)imageViewer;
+
+/**
  Called when the image viewer is double tapped.
  */
 - (void)imageViewerDidDoubleTap:(JTSImageViewController *)imageViewer;
